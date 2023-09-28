@@ -1,0 +1,8 @@
+[package]
+name = "average"
+version = "0.1.0"
+authors = ["Bill Nickel <bill.nickel@gmail.com>"]
+
+[profile.release]
+strip = true # Strip symbols from library
+opt-level = "z" # Optimize for size
