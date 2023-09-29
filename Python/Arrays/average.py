@@ -1,12 +1,19 @@
 # python3 average.py
+
+def array_average(scores):
+    total = 0
+
+    for score in scores:
+        total += score
+        print(f"Total: {total}, {score}")
+
+    print(f"Total: {total}")
+    return total / len(scores)
+
+
 scores = [ 72, 73, 33 ]; 
 print(f"Array length: {len(scores)}")
 
-total = 0
+average = array_average(scores)
 
-for score in scores:
-    total += score
-    print(f"Total: {total}, {score}")
-
-print(f"Total: {total}")
-print(f"Average: {total / len(scores)}")
+print(f"Average: {average}")

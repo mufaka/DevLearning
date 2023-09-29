@@ -1,12 +1,18 @@
+function array_average(scores) {
+    let total: number = 0;
+
+    for (let i = 0; i < scores.length; i++) {
+        total += scores[i];
+        console.log(`Total: ${total}, ${scores[i]}`);
+    }
+    
+    console.log(`Total: ${total}`);
+    return total / scores.length;
+}
+
 let scores: number[] = [ 72, 73, 33];
 console.log(`Array length: ${scores.length}`);
 
-let total: number = 0;
+let average = array_average(scores);
 
-for (let i = 0; i < scores.length; i++) {
-    total += scores[i];
-    console.log(`Total: ${total}, ${scores[i]}`);
-}
-
-console.log(`Total: ${total}`);
-console.log(`Average: ${total / scores.length}`);
+console.log(`Average: ${average}`);
