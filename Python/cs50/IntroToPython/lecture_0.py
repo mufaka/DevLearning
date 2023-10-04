@@ -10,7 +10,10 @@ def main():
     #hello_with_print_options()
     #hello_with_clean_str()
     #hello_with_split()
-    hello_wrapping_up()
+    #hello_wrapping_up()
+    #calculator_one()
+    #calculator_two()
+    calculator_three()
 
 def hello():
     # print is function, "hello, world" is argument
@@ -80,6 +83,44 @@ def hello_wrapping_up():
     # not covered in lesson but list comprehension is pretty powerful
     print(f"Hello, {' '.join([n.strip().capitalize() for n in names if n.strip() != ''])}")
 
+def calculator_one():
+    x = 1
+    y = 2
+    z = x + y
+    print(z)
+
+def calculator_two():
+    # convert string to int
+    x = int(input("First Number: "))
+    y = int(input("Second Number: "))
+
+    print(x + y)
+
+def calculator_three():
+    x = float(input("First Number: "))
+    o = input("Operation: (+ - / * %) ")
+    y = float(input("Second Number: "))
+
+    result = 0.0
+
+    match o:
+        case "+":
+            result = x + y
+        case "-":
+            result = x - y 
+        case "/":
+            result = x / y 
+        case "*":
+            result = x * y 
+        case "%":
+            result = x % y 
+        case _:
+            print(f"Uknown operator {o}. Please use one of + - / * %")
+
+    result = round(result, 4)
+
+    # format string with option for , separating long numbers.
+    print(f"{result:,}")
 
 '''
 Python string is str
