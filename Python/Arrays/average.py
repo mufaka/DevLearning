@@ -1,5 +1,6 @@
 # python3 average.py
 
+
 def array_average(scores):
     total = 0
 
@@ -11,7 +12,7 @@ def array_average(scores):
     return total / len(scores)
 
 
-scores = [ 72, 73, 33 ]; 
+scores = [72, 73, 33]
 print(f"Array length: {len(scores)}")
 
 average = array_average(scores)
