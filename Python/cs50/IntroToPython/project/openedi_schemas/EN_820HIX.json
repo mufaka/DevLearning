@@ -1,0 +1,1798 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EdiNation API",
+    "version": "2"
+  },
+  "paths": { },
+  "components": {
+    "schemas": {
+      "ST": {
+        "required": [
+          "TransactionSetControlNumber_02",
+          "TransactionSetIdentifierCode_01"
+        ],
+        "type": "object",
+        "properties": {
+          "TransactionSetIdentifierCode_01": {
+            "maxLength": 3,
+            "minLength": 3,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "143"
+          },
+          "TransactionSetControlNumber_02": {
+            "maxLength": 9,
+            "minLength": 4,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "329"
+          },
+          "ImplementationConventionPreference_03": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1705"
+          }
+        },
+        "x-edination-segment-id": "ST"
+      },
+      "X12_ID_305_3": {
+        "enum": [
+          "I"
+        ],
+        "type": "string",
+        "format": "X12_ID_305_3"
+      },
+      "X12_ID_478_2": {
+        "enum": [
+          "C"
+        ],
+        "type": "string",
+        "format": "X12_ID_478_2"
+      },
+      "X12_ID_591_4": {
+        "enum": [
+          "ACH",
+          "CHK",
+          "FWT",
+          "NON"
+        ],
+        "type": "string",
+        "format": "X12_ID_591_4"
+      },
+      "X12_ID_812_2": {
+        "enum": [
+          "CCP"
+        ],
+        "type": "string",
+        "format": "X12_ID_812_2"
+      },
+      "X12_ID_506_2": {
+        "enum": [
+          "01",
+          "02",
+          "04"
+        ],
+        "type": "string",
+        "format": "X12_ID_506_2"
+      },
+      "X12_ID_569": {
+        "enum": [
+          "DA",
+          "SG"
+        ],
+        "type": "string",
+        "format": "X12_ID_569"
+      },
+      "BPR_FinancialInformation_3": {
+        "required": [
+          "CheckIssueorEFTEffectiveDate_16",
+          "CreditorDebitFlagCode_03",
+          "PaymentMethodCode_04",
+          "TotalPremiumPaymentAmount_02",
+          "TransactionHandlingCode_01"
+        ],
+        "type": "object",
+        "properties": {
+          "TransactionHandlingCode_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_305_3"
+              }
+            ],
+            "x-edination-element-id": "305"
+          },
+          "TotalPremiumPaymentAmount_02": {
+            "maxLength": 18,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_R",
+            "x-edination-element-id": "782"
+          },
+          "CreditorDebitFlagCode_03": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_478_2"
+              }
+            ],
+            "x-edination-element-id": "478"
+          },
+          "PaymentMethodCode_04": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_591_4"
+              }
+            ],
+            "x-edination-element-id": "591"
+          },
+          "PaymentFormatCode_05": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_812_2"
+              }
+            ],
+            "x-edination-element-id": "812"
+          },
+          "DepositoryFinancialInstitutionDFIIdentificationNumberQualifier_06": {
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "506"
+          },
+          "OriginatingDepositoryFinancialInstitutionDFIIdentifier_07": {
+            "maxLength": 12,
+            "minLength": 3,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "507"
+          },
+          "AccountNumberQualifier_08": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "569"
+          },
+          "SenderBankAccountNumber_09": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "508"
+          },
+          "PayerIdentifier_10": {
+            "maxLength": 10,
+            "minLength": 10,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "509"
+          },
+          "OriginatingCompanySupplementalCode_11": {
+            "maxLength": 9,
+            "minLength": 9,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "510"
+          },
+          "DepositoryFinancialInstitutionDFIIdentificationNumberQualifier_12": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_506_2"
+              }
+            ],
+            "x-edination-element-id": "506"
+          },
+          "ReceivingDepositoryFinancialInstitutionDFIIdentifier_13": {
+            "maxLength": 12,
+            "minLength": 3,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "507"
+          },
+          "AccountNumberQualifier_14": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_569"
+              }
+            ],
+            "x-edination-element-id": "569"
+          },
+          "ReceiverBankAccountNumber_15": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "508"
+          },
+          "CheckIssueorEFTEffectiveDate_16": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "format": "X12_DT",
+            "x-edination-element-id": "373"
+          },
+          "BusinessFunctionCode_17": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1048"
+          },
+          "DFIIDNumberQualifier_18": {
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "506"
+          },
+          "DFIIdentificationNumber_19": {
+            "maxLength": 12,
+            "minLength": 3,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "507"
+          },
+          "AccountNumberQualifier_20": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "569"
+          },
+          "AccountNumber_21": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "508"
+          }
+        },
+        "x-edination-syntax": [
+          "P0607",
+          "C0809",
+          "P1213",
+          "C1415",
+          "P1819",
+          "C2021"
+        ],
+        "x-edination-segment-id": "BPR"
+      },
+      "X12_ID_481_5": {
+        "enum": [
+          "3"
+        ],
+        "type": "string",
+        "format": "X12_ID_481_5"
+      },
+      "TRN_ReassociationTraceNumber_2": {
+        "required": [
+          "CurrentTransactionTraceNumber_02",
+          "TraceTypeCode_01"
+        ],
+        "type": "object",
+        "properties": {
+          "TraceTypeCode_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_481_5"
+              }
+            ],
+            "x-edination-element-id": "481"
+          },
+          "CurrentTransactionTraceNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "OriginatingCompanyIdentifier_03": {
+            "maxLength": 10,
+            "minLength": 10,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "509"
+          },
+          "ReferenceIdentification_04": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          }
+        },
+        "x-edination-segment-id": "TRN"
+      },
+      "X12_ID_128_85": {
+        "enum": [
+          "38"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_85"
+      },
+      "C040_ReferenceIdentifier_9": {
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": ""
+          },
+          "ReferenceIdentification_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": ""
+          },
+          "ReferenceIdentificationQualifier_03": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": ""
+          },
+          "ReferenceIdentification_04": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": ""
+          },
+          "ReferenceIdentificationQualifier_05": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": ""
+          },
+          "ReferenceIdentification_06": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": ""
+          }
+        },
+        "x-edination-syntax": [
+          "P0304",
+          "P0506"
+        ],
+        "x-edination-composite-id": "C040"
+      },
+      "REF_ExchangeAssignedQualifiedHealthPlanIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_85"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_102": {
+        "enum": [
+          "TV"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_102"
+      },
+      "REF_IssuerAssignedQualifiedHealthPlanIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_102"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_98": {
+        "enum": [
+          "18"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_98"
+      },
+      "REF_ExchangeAssignedEmployerGroupIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_98"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_48": {
+        "enum": [
+          "1L"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_48"
+      },
+      "REF_IssuerAssignedEmployerGroupIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_48"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_98_23": {
+        "enum": [
+          "PE"
+        ],
+        "type": "string",
+        "format": "X12_ID_98_23"
+      },
+      "X12_ID_66_44": {
+        "enum": [
+          "FI"
+        ],
+        "type": "string",
+        "format": "X12_ID_66_44"
+      },
+      "N1_PayeeName": {
+        "required": [
+          "EntityIdentifierCode_01",
+          "IdentificationCodeQualifier_03",
+          "IntermediaryBankIdentifier_04",
+          "PremiumPayerName_02"
+        ],
+        "type": "object",
+        "properties": {
+          "EntityIdentifierCode_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_98_23"
+              }
+            ],
+            "x-edination-element-id": "98"
+          },
+          "PremiumPayerName_02": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "93"
+          },
+          "IdentificationCodeQualifier_03": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_66_44"
+              }
+            ],
+            "x-edination-element-id": "66"
+          },
+          "IntermediaryBankIdentifier_04": {
+            "maxLength": 80,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "67"
+          },
+          "EntityRelationshipCode_05": {
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "706"
+          },
+          "EntityIdentifierCode_06": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "98"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203",
+          "P0304"
+        ],
+        "x-edination-segment-id": "N1"
+      },
+      "X12_ID_128_104": {
+        "enum": [
+          "ABY"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_104"
+      },
+      "REF_UniqueHealthPlanIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_104"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "Loop_1000A_820HIX": {
+        "required": [
+          "N1_PayeeName"
+        ],
+        "type": "object",
+        "properties": {
+          "N1_PayeeName": {
+            "$ref": "#/components/schemas/N1_PayeeName"
+          },
+          "REF_UniqueHealthPlanIdentifier": {
+            "$ref": "#/components/schemas/REF_UniqueHealthPlanIdentifier"
+          }
+        },
+        "x-edination-loop-id": "1000A"
+      },
+      "X12_ID_98_71": {
+        "enum": [
+          "RM"
+        ],
+        "type": "string",
+        "format": "X12_ID_98_71"
+      },
+      "X12_ID_66_45": {
+        "enum": [
+          "58"
+        ],
+        "type": "string",
+        "format": "X12_ID_66_45"
+      },
+      "N1_PayersName": {
+        "required": [
+          "EntityIdentifierCode_01",
+          "IdentificationCodeQualifier_03",
+          "IntermediaryBankIdentifier_04",
+          "PremiumPayerName_02"
+        ],
+        "type": "object",
+        "properties": {
+          "EntityIdentifierCode_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_98_71"
+              }
+            ],
+            "x-edination-element-id": "98"
+          },
+          "PremiumPayerName_02": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "93"
+          },
+          "IdentificationCodeQualifier_03": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_66_45"
+              }
+            ],
+            "x-edination-element-id": "66"
+          },
+          "IntermediaryBankIdentifier_04": {
+            "maxLength": 80,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "67"
+          },
+          "EntityRelationshipCode_05": {
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "706"
+          },
+          "EntityIdentifierCode_06": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "98"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203",
+          "P0304"
+        ],
+        "x-edination-segment-id": "N1"
+      },
+      "X12_ID_366_10": {
+        "enum": [
+          "IC"
+        ],
+        "type": "string",
+        "format": "X12_ID_366_10"
+      },
+      "X12_ID_365_18": {
+        "enum": [
+          "EM",
+          "FX",
+          "TE"
+        ],
+        "type": "string",
+        "format": "X12_ID_365_18"
+      },
+      "X12_ID_365_4": {
+        "enum": [
+          "EM",
+          "EX",
+          "FX",
+          "TE"
+        ],
+        "type": "string",
+        "format": "X12_ID_365_4"
+      },
+      "PER_PayersAdministrativeContactInformation": {
+        "required": [
+          "CommunicationNumberQualifier_03",
+          "ContactFunctionCode_01",
+          "ResponseContactCommunicationNumber_04",
+          "ResponseContactName_02"
+        ],
+        "type": "object",
+        "properties": {
+          "ContactFunctionCode_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_366_10"
+              }
+            ],
+            "x-edination-element-id": "366"
+          },
+          "ResponseContactName_02": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "93"
+          },
+          "CommunicationNumberQualifier_03": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_365_18"
+              }
+            ],
+            "x-edination-element-id": "365"
+          },
+          "ResponseContactCommunicationNumber_04": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "364"
+          },
+          "CommunicationNumberQualifier_05": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_365_4"
+              }
+            ],
+            "x-edination-element-id": "365"
+          },
+          "ResponseContactCommunicationNumber_06": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "364"
+          },
+          "CommunicationNumberQualifier_07": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_365_4"
+              }
+            ],
+            "x-edination-element-id": "365"
+          },
+          "ResponseContactCommunicationNumber_08": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "364"
+          },
+          "ContactInquiryReference_09": {
+            "maxLength": 20,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "443"
+          }
+        },
+        "x-edination-syntax": [
+          "P0304",
+          "P0506",
+          "P0708"
+        ],
+        "x-edination-segment-id": "PER"
+      },
+      "Loop_1000B_820HIX": {
+        "required": [
+          "N1_PayersName"
+        ],
+        "type": "object",
+        "properties": {
+          "N1_PayersName": {
+            "$ref": "#/components/schemas/N1_PayersName"
+          },
+          "PER_PayersAdministrativeContactInformation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PER_PayersAdministrativeContactInformation"
+            }
+          }
+        },
+        "x-edination-loop-id": "1000B"
+      },
+      "ENT_RemittanceInformation": {
+        "required": [
+          "AssignedNumber_01"
+        ],
+        "type": "object",
+        "properties": {
+          "AssignedNumber_01": {
+            "maxLength": 6,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_N0",
+            "x-edination-element-id": "554"
+          },
+          "EntityIdentifierCode_02": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "98"
+          },
+          "IdentificationCodeQualifier_03": {
+            "maxLength": 2,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "66"
+          },
+          "ReceiversIndividualIdentifier_04": {
+            "maxLength": 80,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "67"
+          },
+          "EntityIdentifierCode_05": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "98"
+          },
+          "IdentificationCodeQualifier_06": {
+            "maxLength": 2,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "66"
+          },
+          "IdentificationCode_07": {
+            "maxLength": 80,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "67"
+          },
+          "ReferenceIdentificationQualifier_08": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "128"
+          },
+          "ReferenceIdentification_09": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          }
+        },
+        "x-edination-syntax": [
+          "P020304",
+          "P050607",
+          "P0809"
+        ],
+        "x-edination-segment-id": "ENT"
+      },
+      "X12_ID_98_26": {
+        "enum": [
+          "IL"
+        ],
+        "type": "string",
+        "format": "X12_ID_98_26"
+      },
+      "X12_ID_1065": {
+        "enum": [
+          "1"
+        ],
+        "type": "string",
+        "format": "X12_ID_1065"
+      },
+      "X12_ID_66_46": {
+        "enum": [
+          "C1"
+        ],
+        "type": "string",
+        "format": "X12_ID_66_46"
+      },
+      "NM1_IndividualName_2": {
+        "required": [
+          "EntityIdentifierCode_01",
+          "EntityTypeQualifier_02",
+          "IdentificationCodeQualifier_08",
+          "ResponseContactIdentifier_09"
+        ],
+        "type": "object",
+        "properties": {
+          "EntityIdentifierCode_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_98_26"
+              }
+            ],
+            "x-edination-element-id": "98"
+          },
+          "EntityTypeQualifier_02": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_1065"
+              }
+            ],
+            "x-edination-element-id": "1065"
+          },
+          "ResponseContactLastorOrganizationName_03": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1035"
+          },
+          "ResponseContactFirstName_04": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1036"
+          },
+          "ResponseContactMiddleName_05": {
+            "maxLength": 25,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1037"
+          },
+          "NamePrefix_06": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1038"
+          },
+          "ResponseContactNameSuffix_07": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1039"
+          },
+          "IdentificationCodeQualifier_08": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_66_46"
+              }
+            ],
+            "x-edination-element-id": "66"
+          },
+          "ResponseContactIdentifier_09": {
+            "maxLength": 80,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "67"
+          },
+          "EntityRelationshipCode_10": {
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "706"
+          },
+          "EntityIdentifierCode_11": {
+            "maxLength": 3,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "98"
+          },
+          "NameLastorOrganizationName_12": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1035"
+          }
+        },
+        "x-edination-syntax": [
+          "P0809",
+          "C1110",
+          "C1203"
+        ],
+        "x-edination-segment-id": "NM1"
+      },
+      "X12_ID_128_99": {
+        "enum": [
+          "POL"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_99"
+      },
+      "REF_ExchangeAssignedPolicyIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_99"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_103": {
+        "enum": [
+          "AZ"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_103"
+      },
+      "REF_IssuerAssignedPolicyIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_103"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_96": {
+        "enum": [
+          "4A"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_96"
+      },
+      "REF_ExchangeAssignedAPTCContributorTaxPayerIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_96"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_97": {
+        "enum": [
+          "23"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_97"
+      },
+      "REF_IssuerAssignedAPTCContributorTaxPayerIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_97"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_105": {
+        "enum": [
+          "60"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_105"
+      },
+      "REF_ExchangeAssignedDependentIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_105"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_101": {
+        "enum": [
+          "1W"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_101"
+      },
+      "REF_IssuerAssignedDependentIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_101"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_128_39": {
+        "enum": [
+          "0F"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_39"
+      },
+      "REF_IssuerAssignedSubscriberIdentifier": {
+        "required": [
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_39"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "Loop_2100_820HIX": {
+        "required": [
+          "NM1_IndividualName",
+          "REF_ExchangeAssignedPolicyIdentifier"
+        ],
+        "type": "object",
+        "properties": {
+          "NM1_IndividualName": {
+            "$ref": "#/components/schemas/NM1_IndividualName_2"
+          },
+          "REF_ExchangeAssignedQualifiedHealthPlanIdentifier": {
+            "$ref": "#/components/schemas/REF_ExchangeAssignedQualifiedHealthPlanIdentifier"
+          },
+          "REF_IssuerAssignedQualifiedHealthPlanIdentifier": {
+            "$ref": "#/components/schemas/REF_IssuerAssignedQualifiedHealthPlanIdentifier"
+          },
+          "REF_ExchangeAssignedEmployerGroupIdentifier": {
+            "$ref": "#/components/schemas/REF_ExchangeAssignedEmployerGroupIdentifier"
+          },
+          "REF_IssuerAssignedEmployerGroupIdentifier": {
+            "$ref": "#/components/schemas/REF_IssuerAssignedEmployerGroupIdentifier"
+          },
+          "REF_ExchangeAssignedPolicyIdentifier": {
+            "$ref": "#/components/schemas/REF_ExchangeAssignedPolicyIdentifier"
+          },
+          "REF_IssuerAssignedPolicyIdentifier": {
+            "$ref": "#/components/schemas/REF_IssuerAssignedPolicyIdentifier"
+          },
+          "REF_ExchangeAssignedAPTCContributorTaxPayerIdentifier": {
+            "$ref": "#/components/schemas/REF_ExchangeAssignedAPTCContributorTaxPayerIdentifier"
+          },
+          "REF_IssuerAssignedAPTCContributorTaxPayerIdentifier": {
+            "$ref": "#/components/schemas/REF_IssuerAssignedAPTCContributorTaxPayerIdentifier"
+          },
+          "REF_ExchangeAssignedDependentIdentifier": {
+            "$ref": "#/components/schemas/REF_ExchangeAssignedDependentIdentifier"
+          },
+          "REF_IssuerAssignedDependentIdentifier": {
+            "$ref": "#/components/schemas/REF_IssuerAssignedDependentIdentifier"
+          },
+          "REF_IssuerAssignedSubscriberIdentifier": {
+            "$ref": "#/components/schemas/REF_IssuerAssignedSubscriberIdentifier"
+          }
+        },
+        "x-edination-loop-id": "2100"
+      },
+      "X12_ID_128_94": {
+        "enum": [
+          "ZZ"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_94"
+      },
+      "RMR_RemittanceDetail": {
+        "required": [
+          "DetailPremiumPaymentAmount_04",
+          "InsuranceRemittanceReferenceNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_94"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "InsuranceRemittanceReferenceNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "PaymentActionCode_03": {
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "482"
+          },
+          "DetailPremiumPaymentAmount_04": {
+            "maxLength": 18,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_R",
+            "x-edination-element-id": "782"
+          },
+          "BilledPremiumAmount_05": {
+            "maxLength": 18,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_R",
+            "x-edination-element-id": "782"
+          },
+          "MonetaryAmount_06": {
+            "maxLength": 18,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_R",
+            "x-edination-element-id": "782"
+          },
+          "AdjustmentReasonCode_07": {
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "426"
+          },
+          "MonetaryAmount_08": {
+            "maxLength": 18,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_R",
+            "x-edination-element-id": "782"
+          }
+        },
+        "x-edination-syntax": [
+          "P0102",
+          "P0708"
+        ],
+        "x-edination-segment-id": "RMR"
+      },
+      "X12_ID_128_100": {
+        "enum": [
+          "0N"
+        ],
+        "type": "string",
+        "format": "X12_ID_128_100"
+      },
+      "REF_ExchangeReportDocumentControlNumber": {
+        "required": [
+          "Description_03",
+          "MemberGrouporPolicyNumber_02",
+          "ReferenceIdentificationQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "ReferenceIdentificationQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_128_100"
+              }
+            ],
+            "x-edination-element-id": "128"
+          },
+          "MemberGrouporPolicyNumber_02": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "127"
+          },
+          "Description_03": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "352"
+          },
+          "ReferenceIdentifier_04": {
+            "$ref": "#/components/schemas/C040_ReferenceIdentifier_9"
+          }
+        },
+        "x-edination-syntax": [
+          "R0203"
+        ],
+        "x-edination-segment-id": "REF"
+      },
+      "X12_ID_374_33": {
+        "enum": [
+          "582"
+        ],
+        "type": "string",
+        "format": "X12_ID_374_33"
+      },
+      "X12_ID_1250_3": {
+        "enum": [
+          "RD8"
+        ],
+        "type": "string",
+        "format": "X12_ID_1250_3"
+      },
+      "DTM_IndividualCoveragePeriod_2": {
+        "required": [
+          "DateTimePeriod_06",
+          "DateTimePeriodFormatQualifier_05",
+          "DateTimeQualifier_01"
+        ],
+        "type": "object",
+        "properties": {
+          "DateTimeQualifier_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_374_33"
+              }
+            ],
+            "x-edination-element-id": "374"
+          },
+          "Date_02": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "format": "X12_DT",
+            "x-edination-element-id": "373"
+          },
+          "Time_03": {
+            "maxLength": 8,
+            "minLength": 4,
+            "type": "string",
+            "format": "X12_TM",
+            "x-edination-element-id": "337"
+          },
+          "TimeCode_04": {
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "623"
+          },
+          "DateTimePeriodFormatQualifier_05": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_1250_3"
+              }
+            ],
+            "x-edination-element-id": "1250"
+          },
+          "DateTimePeriod_06": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1251"
+          }
+        },
+        "x-edination-syntax": [
+          "R020305",
+          "C0403",
+          "P0506"
+        ],
+        "x-edination-segment-id": "DTM"
+      },
+      "Loop_2300_820HIX": {
+        "required": [
+          "DTM_IndividualCoveragePeriod",
+          "RMR_RemittanceDetail"
+        ],
+        "type": "object",
+        "properties": {
+          "RMR_RemittanceDetail": {
+            "$ref": "#/components/schemas/RMR_RemittanceDetail"
+          },
+          "REF_ExchangeReportDocumentControlNumber": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/REF_ExchangeReportDocumentControlNumber"
+            }
+          },
+          "DTM_IndividualCoveragePeriod": {
+            "$ref": "#/components/schemas/DTM_IndividualCoveragePeriod_2"
+          }
+        },
+        "x-edination-loop-id": "2300"
+      },
+      "Loop_2000_820HIX": {
+        "required": [
+          "ENT_RemittanceInformation",
+          "Loop2300"
+        ],
+        "type": "object",
+        "properties": {
+          "ENT_RemittanceInformation": {
+            "$ref": "#/components/schemas/ENT_RemittanceInformation"
+          },
+          "Loop2100": {
+            "$ref": "#/components/schemas/Loop_2100_820HIX"
+          },
+          "Loop2300": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Loop_2300_820HIX"
+            }
+          }
+        },
+        "x-edination-loop-seq": 1,
+        "x-edination-loop-id": "2000"
+      },
+      "SE": {
+        "required": [
+          "NumberofIncludedSegments_01",
+          "TransactionSetControlNumber_02"
+        ],
+        "type": "object",
+        "properties": {
+          "NumberofIncludedSegments_01": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_N0",
+            "x-edination-element-id": "96"
+          },
+          "TransactionSetControlNumber_02": {
+            "maxLength": 9,
+            "minLength": 4,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "329"
+          }
+        },
+        "x-edination-segment-id": "SE"
+      },
+      "TS820HIX": {
+        "required": [
+          "BPR_FinancialInformation",
+          "Loop1000A",
+          "Loop1000B",
+          "Loop2000",
+          "TRN_ReassociationTraceNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "Model": {
+            "type": "string"
+          },
+          "ST": {
+            "$ref": "#/components/schemas/ST"
+          },
+          "BPR_FinancialInformation": {
+            "$ref": "#/components/schemas/BPR_FinancialInformation_3"
+          },
+          "TRN_ReassociationTraceNumber": {
+            "$ref": "#/components/schemas/TRN_ReassociationTraceNumber_2"
+          },
+          "REF_ExchangeAssignedQualifiedHealthPlanIdentifier": {
+            "$ref": "#/components/schemas/REF_ExchangeAssignedQualifiedHealthPlanIdentifier"
+          },
+          "REF_IssuerAssignedQualifiedHealthPlanIdentifier": {
+            "$ref": "#/components/schemas/REF_IssuerAssignedQualifiedHealthPlanIdentifier"
+          },
+          "REF_ExchangeAssignedEmployerGroupIdentifier": {
+            "$ref": "#/components/schemas/REF_ExchangeAssignedEmployerGroupIdentifier"
+          },
+          "REF_IssuerAssignedEmployerGroupIdentifier": {
+            "$ref": "#/components/schemas/REF_IssuerAssignedEmployerGroupIdentifier"
+          },
+          "Loop1000A": {
+            "$ref": "#/components/schemas/Loop_1000A_820HIX"
+          },
+          "Loop1000B": {
+            "$ref": "#/components/schemas/Loop_1000B_820HIX"
+          },
+          "Loop2000": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Loop_2000_820HIX"
+            }
+          },
+          "SE": {
+            "$ref": "#/components/schemas/SE"
+          }
+        },
+        "x-edination-message-id": "820",
+        "x-edination-message-standard": "X12",
+        "x-edination-message-version": "005010X306"
+      }
+    }
+  }
+}

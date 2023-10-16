@@ -1,0 +1,489 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EdiNation API",
+    "version": "2"
+  },
+  "paths": { },
+  "components": {
+    "schemas": {
+      "ST": {
+        "required": [
+          "TransactionSetControlNumber_02",
+          "TransactionSetIdentifierCode_01"
+        ],
+        "type": "object",
+        "properties": {
+          "TransactionSetIdentifierCode_01": {
+            "maxLength": 3,
+            "minLength": 3,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "143"
+          },
+          "TransactionSetControlNumber_02": {
+            "maxLength": 9,
+            "minLength": 4,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "329"
+          },
+          "ImplementationConventionPreference_03": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "1705"
+          }
+        },
+        "x-edination-segment-id": "ST"
+      },
+      "AK1": {
+        "type": "object",
+        "properties": {
+          "FunctionalIdentifierCode_01": {
+            "type": "string"
+          },
+          "GroupControlNumber_02": {
+            "type": "string"
+          },
+          "VersionReleaseorIndustryIdentifierCode_03": {
+            "type": "string"
+          }
+        },
+        "x-edination-segment-id": "AK1"
+      },
+      "AK2": {
+        "type": "object",
+        "properties": {
+          "TransactionSetIdentifierCode_01": {
+            "type": "string"
+          },
+          "TransactionSetControlNumber_02": {
+            "type": "string"
+          },
+          "ImplementationConventionReference_03": {
+            "type": "string"
+          }
+        },
+        "x-edination-segment-id": "AK2"
+      },
+      "IK3": {
+        "type": "object",
+        "properties": {
+          "SegmentIDCode_01": {
+            "type": "string"
+          },
+          "SegmentPositioninTransactionSet_02": {
+            "type": "string"
+          },
+          "LoopIdentifierCode_03": {
+            "type": "string"
+          },
+          "ImplementationSegmentSyntaxErrorCode_04": {
+            "type": "string"
+          }
+        },
+        "x-edination-segment-id": "IK3"
+      },
+      "CTX_Seg1": {
+        "type": "object",
+        "properties": {
+          "Seg_01": {
+            "type": "string"
+          },
+          "Seg_02": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_Seg1"
+      },
+      "CTX_Seg5": {
+        "type": "object",
+        "properties": {
+          "Seg_01": {
+            "type": "string"
+          },
+          "Seg_02": {
+            "type": "string"
+          },
+          "Seg_03": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_Seg5"
+      },
+      "CTX_Seg6": {
+        "type": "object",
+        "properties": {
+          "Seg_01": {
+            "type": "string"
+          },
+          "Seg_02": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_Seg6"
+      },
+      "CTX_Seg": {
+        "type": "object",
+        "properties": {
+          "Seg_01": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CTX_Seg1"
+            }
+          },
+          "Seg_02": {
+            "type": "string"
+          },
+          "Seg_03": {
+            "type": "string"
+          },
+          "Seg_04": {
+            "type": "string"
+          },
+          "Seg_05": {
+            "$ref": "#/components/schemas/CTX_Seg5"
+          },
+          "Seg_06": {
+            "$ref": "#/components/schemas/CTX_Seg6"
+          }
+        },
+        "x-edination-segment-id": "CTX"
+      },
+      "CTX_BU1": {
+        "type": "object",
+        "properties": {
+          "BU_01": {
+            "type": "string"
+          },
+          "BU_02": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_BU1"
+      },
+      "CTX_BU5": {
+        "type": "object",
+        "properties": {
+          "BU_01": {
+            "type": "string"
+          },
+          "BU_02": {
+            "type": "string"
+          },
+          "BU_03": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_BU5"
+      },
+      "CTX_BU6": {
+        "type": "object",
+        "properties": {
+          "BU_01": {
+            "type": "string"
+          },
+          "BU_02": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_BU6"
+      },
+      "CTX_BU": {
+        "type": "object",
+        "properties": {
+          "BU_01": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CTX_BU1"
+            }
+          },
+          "BU_02": {
+            "type": "string"
+          },
+          "BU_03": {
+            "type": "string"
+          },
+          "BU_04": {
+            "type": "string"
+          },
+          "BU_05": {
+            "$ref": "#/components/schemas/CTX_BU5"
+          },
+          "BU_06": {
+            "$ref": "#/components/schemas/CTX_BU6"
+          }
+        },
+        "x-edination-segment-id": "CTX"
+      },
+      "C030_PositionInSegment": {
+        "type": "object",
+        "properties": {
+          "ElementPositionInSegment_01": {
+            "type": "string"
+          },
+          "ComponentDataElementPositionInComposite_02": {
+            "type": "string"
+          },
+          "RepeatingDataElementPosition_03": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "C030_PositionInSegment"
+      },
+      "IK4": {
+        "type": "object",
+        "properties": {
+          "PositionInSegment_01": {
+            "$ref": "#/components/schemas/C030_PositionInSegment"
+          },
+          "DataElementReferenceNumber_02": {
+            "type": "string"
+          },
+          "ImplementationDataElementSyntaxErrorCode_03": {
+            "type": "string"
+          },
+          "CopyofBadDataElement_04": {
+            "type": "string"
+          }
+        },
+        "x-edination-segment-id": "IK4"
+      },
+      "CTX_Ele1": {
+        "type": "object",
+        "properties": {
+          "Ele_01": {
+            "type": "string"
+          },
+          "Ele_02": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_Ele1"
+      },
+      "CTX_Ele5": {
+        "type": "object",
+        "properties": {
+          "Ele_01": {
+            "type": "string"
+          },
+          "Ele_02": {
+            "type": "string"
+          },
+          "Ele_03": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_Ele5"
+      },
+      "CTX_Ele6": {
+        "type": "object",
+        "properties": {
+          "Ele_01": {
+            "type": "string"
+          },
+          "Ele_02": {
+            "type": "string"
+          }
+        },
+        "x-edination-composite-id": "CTX_Ele6"
+      },
+      "CTX_Ele": {
+        "type": "object",
+        "properties": {
+          "Ele_01": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CTX_Ele1"
+            }
+          },
+          "Ele_02": {
+            "type": "string"
+          },
+          "Ele_03": {
+            "type": "string"
+          },
+          "Ele_04": {
+            "type": "string"
+          },
+          "Ele_05": {
+            "$ref": "#/components/schemas/CTX_Ele5"
+          },
+          "Ele_06": {
+            "$ref": "#/components/schemas/CTX_Ele6"
+          }
+        },
+        "x-edination-segment-id": "CTX"
+      },
+      "Loop_2110": {
+        "type": "object",
+        "properties": {
+          "IK4": {
+            "$ref": "#/components/schemas/IK4"
+          },
+          "CTX_Ele": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CTX_Ele"
+            }
+          }
+        },
+        "x-edination-loop-id": "2110"
+      },
+      "Loop_2100": {
+        "type": "object",
+        "properties": {
+          "IK3": {
+            "$ref": "#/components/schemas/IK3"
+          },
+          "CTX_Seg": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CTX_Seg"
+            }
+          },
+          "CTX_BU": {
+            "$ref": "#/components/schemas/CTX_BU"
+          },
+          "Loop_2110": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Loop_2110"
+            }
+          }
+        },
+        "x-edination-loop-id": "2100"
+      },
+      "IK5": {
+        "type": "object",
+        "properties": {
+          "TransactionSetAcknowledgmentCode_01": {
+            "type": "string"
+          },
+          "ImplementationTransactionSetSyntaxErrorCode_02": {
+            "type": "string"
+          },
+          "ImplementationTransactionSetSyntaxErrorCode_03": {
+            "type": "string"
+          },
+          "ImplementationTransactionSetSyntaxErrorCode_04": {
+            "type": "string"
+          },
+          "ImplementationTransactionSetSyntaxErrorCode_05": {
+            "type": "string"
+          },
+          "ImplementationTransactionSetSyntaxErrorCode_06": {
+            "type": "string"
+          }
+        },
+        "x-edination-segment-id": "IK5"
+      },
+      "Loop_2000": {
+        "type": "object",
+        "properties": {
+          "AK2": {
+            "$ref": "#/components/schemas/AK2"
+          },
+          "Loop_2100": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Loop_2100"
+            }
+          },
+          "IK5": {
+            "$ref": "#/components/schemas/IK5"
+          }
+        },
+        "x-edination-loop-id": "2000"
+      },
+      "AK9": {
+        "type": "object",
+        "properties": {
+          "FunctionalGroupAcknowledgeCode_01": {
+            "type": "string"
+          },
+          "NumberofTransactionSetsIncluded_02": {
+            "type": "string"
+          },
+          "NumberofReceivedTransactionSets_03": {
+            "type": "string"
+          },
+          "NumberofAcceptedTransactionSets_04": {
+            "type": "string"
+          },
+          "FunctionalGroupSyntaxErrorCode_05": {
+            "type": "string"
+          },
+          "FunctionalGroupSyntaxErrorCode_06": {
+            "type": "string"
+          },
+          "FunctionalGroupSyntaxErrorCode_07": {
+            "type": "string"
+          },
+          "FunctionalGroupSyntaxErrorCode_08": {
+            "type": "string"
+          },
+          "FunctionalGroupSyntaxErrorCode_09": {
+            "type": "string"
+          }
+        },
+        "x-edination-segment-id": "AK9"
+      },
+      "SE": {
+        "required": [
+          "NumberofIncludedSegments_01",
+          "TransactionSetControlNumber_02"
+        ],
+        "type": "object",
+        "properties": {
+          "NumberofIncludedSegments_01": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "format": "X12_N0",
+            "x-edination-element-id": "96"
+          },
+          "TransactionSetControlNumber_02": {
+            "maxLength": 9,
+            "minLength": 4,
+            "type": "string",
+            "format": "X12_AN",
+            "x-edination-element-id": "329"
+          }
+        },
+        "x-edination-segment-id": "SE"
+      },
+      "TS999": {
+        "type": "object",
+        "properties": {
+          "Model": {
+            "type": "string"
+          },
+          "ST": {
+            "$ref": "#/components/schemas/ST"
+          },
+          "AK1": {
+            "$ref": "#/components/schemas/AK1"
+          },
+          "Loop_2000": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Loop_2000"
+            }
+          },
+          "AK9": {
+            "$ref": "#/components/schemas/AK9"
+          },
+          "SE": {
+            "$ref": "#/components/schemas/SE"
+          }
+        },
+        "x-edination-message-id": "999",
+        "x-edination-message-standard": "X12",
+        "x-edination-message-version": "005010X231A1"
+      }
+    }
+  }
+}
