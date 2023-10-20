@@ -49,7 +49,13 @@ class DictUtil:
         root of the dictionary and subsequent values, separated by /,
         are sub keys. 
 
-        "$ref": "#/components/schemas/ST"
+        This is useful for not only picking out individual values but also
+        in cases where the dictionary itself references other values. OpenAPI,
+        for example, defines nested schemas that comprise a specification.
+
+        eg: "$ref": "#/components/schemas/ST"
+
+        This utility can help 'walk down' those schemas.
 
         :return: The value at the provided path
         :rtype: dict, str, or None

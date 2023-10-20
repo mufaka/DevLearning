@@ -1,10 +1,48 @@
 from dict_util import DictUtil
+from schema_node import SchemaNode
 
 class OpenEDISpec:
     def __init__(self, spec):
         """
         A wrapper for a dictionary that is in the OpenEDI specification
-        format.
+        format. OpenEDI implements the OpenAPI Schema Object for defining
+        message structure and rules.
+
+        OpenEDI documentation: https://github.com/EdiNation/OpenEDI-Specification
+
+        OpenEDI extends OpenAPI with the following attributes. Note, x-openedi
+        appears to have been replaced with x-edination
+
+        NOTE: x-openedi is used in the documentation but it appears that x-edination is used "in the wild"
+
+        EDI Message
+            x-openedi-message-standard
+            x-openedi-message-id
+            x-openedi-message-version (optional; exists if multiple implementations of message type)
+
+        EDI Loop
+            x-openedi-loop-id
+
+        EDI Segment
+            x-openedi-segment-id
+
+        EDI Composite Data Element
+            x-openedi-composite-id
+
+        EDI Data Element
+            x-openedi-element-id
+
+        EDI Syntax Rules
+            x-openedi-syntax (optional, refer to https://github.com/EdiNation/OpenEDI-Specification#edi-syntax-rules)
+
+        EDI Situational Rules
+            x-openedi-situational (optional, refer to https://github.com/EdiNation/OpenEDI-Specification#edi-situational-rules)
+
+        Additional grouping of EDI Loops or EDI segments
+            x-openedi-group-type
+
+        EDI Sequences
+            x-openedi-loop-seq
 
         :param spec: A dictionary in the OpenEDI specification format.
         :type spec: dict
@@ -14,16 +52,48 @@ class OpenEDISpec:
     def get_root_schema(self):
         return DictUtil.get_dict_containing(self._spec, "x-edination-message-id")
 
+    def get_schemas(self):
+        return DictUtil.get_value_by_reference_path(self._spec, "#/components/schemas")
+
     @property
     def spec(self):
         return self._spec
 
-    """
-    The OpenAPI spec contains definitions of elements that comprise an EDI message. These
-    definitions are individual schemas with one being designated as the root. OpenEDI tags
-    the root with extension attributs that define the message type. A schema with
-    x-edination-message-id designates it as the root.
+    def get_schema_tree(self):
+        # schema objects are a dictionary with a 'properties' key, among other keys that 
+        # define properties and sub-schemas
+        root_schema = self.get_root_schema()
+        root_node = SchemaNode(root_schema["x-edination-message-id"], root_schema)
+        # TODO: set a node type; are there enums in python?
+        self._get_schema_tree_recursive(root_schema, root_node)
 
+        return root_node
+
+    def _get_schema_tree_recursive(self, schema, parent_node):
+        for k, v in schema["properties"].items():
+            if type(v) is dict:
+                if "$ref" in v.keys():
+                    ref_schema = DictUtil.get_value_by_reference_path(self._spec, v["$ref"])
+                    ref_node = SchemaNode(k, ref_schema)
+                    ref_node.parent = parent_node 
+                    parent_node.add_child(ref_node)
+                    
+                    self._get_schema_tree_recursive(ref_schema, ref_node)
+                elif "type" in v.keys() and v["type"] == "array":
+                    if "items" in v.keys() and "$ref" in v["items"].keys():
+                        ref_schema = DictUtil.get_value_by_reference_path(self._spec, v["items"]["$ref"])
+                        ref_node = SchemaNode(k, ref_schema)
+                        ref_node.parent = parent_node 
+                        parent_node.add_child(ref_node)
+                        
+                        self._get_schema_tree_recursive(ref_schema, ref_node)
+                else:
+                    # assume this is an element?
+                    ref_node = SchemaNode(k, v)
+                    ref_node.parent = parent_node 
+                    parent_node.add_child(ref_node)
+
+'''
       "TS999": {
         "type": "object",
         "properties": {
@@ -52,10 +122,7 @@ class OpenEDISpec:
         "x-edination-message-id": "999",
         "x-edination-message-standard": "X12",
         "x-edination-message-version": "005010X231A1"
-      }    
-
-    The properties of the schemas can either be references to other
-    schemas or an element definition.
+      }
 
       "ST": {
         "required": [
@@ -87,21 +154,25 @@ class OpenEDISpec:
           }
         },
         "x-edination-segment-id": "ST"
-      },
+      },        
 
-      "Loop_2110": {
+      "Loop_2000": {
         "type": "object",
         "properties": {
-          "IK4": {
-            "$ref": "#/components/schemas/IK4"
+          "AK2": {
+            "$ref": "#/components/schemas/AK2"
           },
-          "CTX_Ele": {
+          "Loop_2100": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CTX_Ele"
+              "$ref": "#/components/schemas/Loop_2100"
             }
+          },
+          "IK5": {
+            "$ref": "#/components/schemas/IK5"
           }
         },
-        "x-edination-loop-id": "2110"
-      },      
-    """
+        "x-edination-loop-id": "2000"
+      },
+
+'''      

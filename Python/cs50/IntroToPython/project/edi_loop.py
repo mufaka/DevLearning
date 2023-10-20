@@ -1,0 +1,3 @@
+class EdiLoop:
+    def __init__(self):
+        ...
