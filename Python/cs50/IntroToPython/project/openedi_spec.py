@@ -93,7 +93,43 @@ class OpenEDISpec:
                     ref_node.parent = parent_node 
                     parent_node.add_child(ref_node)
 
+                    refs = None 
+
+                    if "allOf" in v.keys(): 
+                        refs = v["allOf"]
+                    elif "anyOf" in v.keys():
+                        refs = v["allOf"]
+                    elif "oneOf" in v.keys():
+                        refs = v["allOf"]
+                    
+                    if refs:
+                        for ref in refs:
+                            of_schema = DictUtil.get_value_by_reference_path(self._spec, ref["$ref"])
+                            of_node = SchemaNode(k, of_schema)
+                            of_node.parent = ref_node 
+                            ref_node.add_child(of_node)
+
+
 '''
+          "EntityIdentifierCode_01": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_98_56"
+              }
+            ],
+            "x-edination-element-id": "98"
+          },
+          "EntityTypeQualifier_02": {
+            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/X12_ID_1065_2"
+              }
+            ],
+            "x-edination-element-id": "1065"
+          },
+
       "TS999": {
         "type": "object",
         "properties": {

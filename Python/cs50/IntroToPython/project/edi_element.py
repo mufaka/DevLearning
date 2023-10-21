@@ -1,4 +1,6 @@
-class EdiElement:
+from edi_node import EdiNode 
+
+class EdiElement(EdiNode):
     """
     Represents a single element within a segment
 
@@ -21,7 +23,8 @@ class EdiElement:
     A convenience property, value, is provided for getting the first composite value
     of the first sub element.
     """
-    def __init__(self):
+    def __init__(self, name):
+        super().__init__(name)
         self._sub_elements = []
         self._values = []
 
@@ -59,8 +62,10 @@ class EdiElement:
         # BGM*SubA-1:SubB-1^SubA-2:SubB-2^SubA-3:SubB-3*Field2~
         elements = raw_edi.split(delimiters["repeat"])
 
+        position = 1
+
         for element in elements:
-            sub_element = EdiElement()
+            sub_element = EdiElement(f"{self.name}.{position:02d}")
             sub_element.values = raw_edi.split(delimiters["composite"])
             self._sub_elements.append(sub_element)
         

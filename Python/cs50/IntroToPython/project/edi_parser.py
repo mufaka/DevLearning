@@ -7,6 +7,7 @@ from edi_loop import EdiLoop
 from edi_element import EdiElement 
 from openedi_spec import OpenEDISpec 
 from openedi_spec_loader import OpenEDISpecLoader
+from schema_node import SchemaNode, SchemaNodeType 
 
 class EdiParser:
     DELIMITER_NAME_ELEMENT = "element"
@@ -30,38 +31,89 @@ class EdiParser:
     def parse_text(self, file_text) -> EdiDocument:
         self._raw_edi = file_text 
         self._populate_delimiters()
-        return self._build_structured_documents()
+        return self._build_structured_document()
 
-    def _build_structured_documents(self):
+    def _build_structured_document(self):
         # temp_document contains all segments from the file but
         # do not have a structure other than being populated
         temp_document = self._populate_document()
 
-        # use the OpenEDI specs to create structured documents from
-        # the temp_document transaction sets (1 document per transaction_set)
+        # use the OpenEDI specs to create a structured document from
+        # the temporary document
         spec_loader = OpenEDISpecLoader("openedi_schemas")
         transaction_set, implementation = temp_document.document_type 
         spec_key = OpenEDISpecLoader.get_message_key(transaction_set, "X12", implementation)
         openedi_spec = OpenEDISpec(spec_loader.read_openedi_message_by_key(spec_key))
         openedi_schema = openedi_spec.get_schema_tree()
 
-        documents = []
+        structured_document = EdiDocument()
+        structured_document.isa_header = temp_document.isa_header 
+        structured_document.isa_trailer = temp_document.isa_trailer 
+        structured_document.functional_group_header = temp_document.functional_group_header
+        structured_document.functional_group_trailer = temp_document.functional_group_trailer 
 
-        for transaction_set in temp_document.transaction_sets:
-            documents.append(self._build_structured_document(transaction_set, openedi_schema))
+        for transaction in temp_document.transaction_sets:
+            structured_document.transaction_sets.append(self._build_structured_transaction(transaction, openedi_schema))
 
-        return documents 
+        return structured_document 
 
-    def _build_structured_document(self, transaction_set, open_edi_schema):
-        self._debug_schema(open_edi_schema, 0)
-        return None 
+    def _build_structured_transaction(self, transaction_set, openedi_schema):
+        #st_spec = self._get_schema_child_by_name(openedi_schema, "ST")
+        transaction = EdiTransaction("Transaction")
+        current_object = transaction 
+        current_schema = openedi_schema 
 
-    def _debug_schema(self, open_edi_schema, level):
-        print("    " * level, open_edi_schema.name)
+        for segment in transaction_set.children:
+            segment_schema = self._get_schema_child_by_name(current_schema, segment.name)
+            
+            if segment_schema != None:
+                # no add_segment anymore
+                current_object.add_child(segment)
+            else:
+                while True:
+                    loop_schema = self._get_loop_schema(current_schema, segment)
+                    if loop_schema != None:
+                        edi_loop = EdiLoop(loop_schema.id)
+                        edi_loop.add_child(segment)
+                        current_object.add_child(edi_loop)
+                        current_object = edi_loop
+                        current_schema = loop_schema 
+                        break
+                    else:
+                        if current_schema.parent != None:
+                            current_schema = current_schema.parent #if current_schema.parent != None else current_schema 
+                            current_object = current_object.parent #if current_object.parent != None else current_object
+                        else:
+                            # couldn't find the appropriate place for the segment
+                            break
 
-        level += 1
-        for child_schema in open_edi_schema.children:
-            self._debug_schema(child_schema, level)
+        return transaction 
+
+    def _get_schema_child_by_name(self, openedi_schema, name):
+        for child_schema in openedi_schema.children:
+            if child_schema.id == name:
+                return child_schema
+        
+        return None
+
+    def _get_loop_schema(self, openedi_schema, segment):
+        for child_schema in openedi_schema.children:
+            if child_schema.node_type == SchemaNodeType.LOOP:
+                loop_segment_id, allowed_values = child_schema.get_loop_markers()
+
+                if loop_segment_id == segment.name:
+                    if allowed_values == None:
+                        return child_schema 
+                    else:
+                        if segment.children[1].value in allowed_values:
+                            return child_schema 
+                else:
+                    temp_schema = self._get_loop_schema(child_schema, segment)    
+
+                    if temp_schema != None:
+                        return temp_schema 
+
+        return None
 
     def _populate_delimiters(self):
         self._delimiters[EdiParser.DELIMITER_NAME_ELEMENT] = self._raw_edi[3]
@@ -79,8 +131,7 @@ class EdiParser:
         current_transaction = None
 
         for raw_segment in self._raw_segments:
-            segment = EdiSegment()
-            segment.populate_from_raw(raw_segment, document.delimiters)
+            segment = EdiSegment.populate_from_raw(raw_segment, document.delimiters)
 
             if segment.name == "ISA":
                 document.isa_header = segment 
@@ -98,7 +149,7 @@ class EdiParser:
                 # new transaction
                 if current_transaction != None:
                     document.add_transaction_set(current_transaction)
-                current_transaction = EdiTransaction()
+                current_transaction = EdiTransaction("ST")
                 current_transaction.add_raw_segment(raw_segment, document.delimiters)
             else:
                 if current_transaction != None:

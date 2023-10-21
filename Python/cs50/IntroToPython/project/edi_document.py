@@ -3,11 +3,11 @@ from edi_transaction import EdiTransaction
 
 class EdiDocument:
     def __init__(self):
-        self._isa_header = EdiSegment()
-        self._isa_trailer = EdiSegment()
+        self._isa_header = EdiSegment("ISA")
+        self._isa_trailer = EdiSegment("IEA")
         self._transaction_sets = []
-        self._functional_group_header = EdiSegment()
-        self._functional_group_trailer = EdiSegment()
+        self._functional_group_header = EdiSegment("GS")
+        self._functional_group_trailer = EdiSegment("GE")
         self._all_segments_raw = []
         self._delimiters = {}
 
@@ -54,9 +54,10 @@ class EdiDocument:
 
         This information allows for determining which specification matches the provided EDI.
         """
-        if len(self._functional_group_header.elements) >=8:
+        if len(self._functional_group_header.children) >=8:
             if len(self._transaction_sets) > 0:
-                return self._transaction_sets[0].segments[0].elements[1].value, self._functional_group_header.elements[8].value
+                #return self._transaction_sets[0].segments[0].elements[1].value, self._functional_group_header.elements[8].value
+                return self._transaction_sets[0].children[0].children[1].value, self._functional_group_header.children[8].value
 
     @property
     def transaction_sets(self):
