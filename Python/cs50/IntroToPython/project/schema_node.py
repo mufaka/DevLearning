@@ -99,11 +99,10 @@ class SchemaNode:
                     if first_element.node_type == SchemaNodeType.COMPOSITE:
                         first_element = first_element.children[0]
 
-                    return first_segment.id, first_element.children[0].allowed_values
-                else:
-                    return first_segment.id, None
-            else:
-                return first_segment.id, None
+                    if len(first_element.children) > 0:
+                        return first_segment.id, first_element.children[0].allowed_values
+
+            return first_segment.id, None
         return None 
 
     def debug_node(self):

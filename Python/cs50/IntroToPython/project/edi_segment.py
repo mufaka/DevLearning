@@ -18,7 +18,7 @@ class EdiSegment(EdiNode):
         segment = EdiSegment(segment_name)
         for part in parts:
             if position > 0:
-                name = f"{name}{position:02d}"
+                name = f"{segment_name}{position:02d}"
             else:
                 name = "ID"
 
