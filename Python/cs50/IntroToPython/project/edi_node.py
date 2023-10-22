@@ -32,8 +32,12 @@ class EdiNode:
         self._print_node_recursive(self, 0)
 
     def _print_node_recursive(self, edi_node, level):
-        if hasattr(edi_node, "value"):
-            print("   " * level, edi_node.name, edi_node.value)
+        if hasattr(edi_node, "sub_elements"):
+            print("   " * level, edi_node.name)
+
+            for element in edi_node.sub_elements:
+                print("   " * (level + 1), element.values)
+
         else:
             print("   " * level, edi_node.name)
 

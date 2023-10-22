@@ -1,5 +1,5 @@
 import codecs
-import os
+import sys
 from edi_document import EdiDocument 
 from edi_transaction import EdiTransaction 
 from edi_segment import EdiSegment 
@@ -82,9 +82,17 @@ class EdiParser:
                     else:
                         if current_schema.parent != None:
                             current_schema = current_schema.parent #if current_schema.parent != None else current_schema 
-                            current_object = current_object.parent #if current_object.parent != None else current_object
+                            current_object = current_object.parent if current_object.parent != None else current_object
+
+                            segment_schema = self._get_schema_child_by_name(current_schema, segment.name)
+                            if segment_schema != None:
+                                # no add_segment anymore
+                                current_object.add_child(segment)
+                                break 
                         else:
                             # couldn't find the appropriate place for the segment
+                            print(f"Couldn't find location for {segment.name}")
+                            #sys.exit(current_schema.debug_node())
                             break
 
         return transaction 
