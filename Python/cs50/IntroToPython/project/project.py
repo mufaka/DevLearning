@@ -1,4 +1,4 @@
-import os 
+import argparse
 from rich.console import Group
 from rich.tree import Tree 
 from rich.panel import Panel
@@ -6,17 +6,20 @@ from rich import print
 from edi_parser import EdiParser 
 
 def main():
-    #file_name = os.path.join("edi_samples", "270-generic-request-dependent.edi")
-    file_name = os.path.join("edi_samples", "837P-COB-claim-from-billing-provider-to-payer-a.edi") 
-    #file_name = os.path.join("edi_samples", "999-response-to-3-837s.edi")
+    parser = argparse.ArgumentParser(
+        prog='EDI Viewer',
+        description='Displays EDI in a structure defined by the implementation specification.')
+    
+    parser.add_argument("filename")
+    args = parser.parse_args()
 
     parser = EdiParser()
-    document = parser.parse_file(file_name)
+    document = parser.parse_file(args.filename)
 
     for transaction_set in document.transaction_sets:
-        debug_node(transaction_set)
+        show_tree(transaction_set)
 
-def debug_node(transaction_set):
+def show_tree(transaction_set):
     tree = Tree(transaction_set.name, hide_root=True)
     populate_tree(transaction_set, tree)
     print(tree)
@@ -34,7 +37,6 @@ def populate_tree(edi_node, tree):
 
     for child_node in edi_node.children:
         populate_tree(child_node, branch)
-
 
 if __name__ == "__main__":
     main()
