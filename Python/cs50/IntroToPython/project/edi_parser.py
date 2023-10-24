@@ -46,6 +46,8 @@ class EdiParser:
         openedi_spec = OpenEDISpec(spec_loader.read_openedi_message_by_key(spec_key))
         openedi_schema = openedi_spec.get_schema_tree()
 
+        #openedi_schema.debug_node()
+
         structured_document = EdiDocument()
         structured_document.isa_header = temp_document.isa_header 
         structured_document.isa_trailer = temp_document.isa_trailer 
@@ -91,7 +93,7 @@ class EdiParser:
                                 break 
                         else:
                             # couldn't find the appropriate place for the segment
-                            print(f"Couldn't find location for {segment.name}")
+                            print(f"Couldn't find location for {segment.name} {segment.raw_edi}")
                             #sys.exit(current_schema.debug_node())
                             break
 
@@ -106,7 +108,7 @@ class EdiParser:
 
     def _get_loop_schema(self, openedi_schema, segment):
         for child_schema in openedi_schema.children:
-            if child_schema.node_type == SchemaNodeType.LOOP:
+            if child_schema.node_type == SchemaNodeType.LOOP or child_schema.node_type == SchemaNodeType.GROUP:
                 loop_segment_id, allowed_values = child_schema.get_loop_markers()
 
                 if loop_segment_id == segment.name:
@@ -120,6 +122,11 @@ class EdiParser:
 
                     if temp_schema != None:
                         return temp_schema 
+            else:
+                temp_schema = self._get_loop_schema(child_schema, segment)
+
+                if temp_schema != None:
+                    return temp_schema 
 
         return None
 
@@ -139,6 +146,9 @@ class EdiParser:
         current_transaction = None
 
         for raw_segment in self._raw_segments:
+            if len(raw_segment.strip()) == 0:
+                continue 
+
             segment = EdiSegment.populate_from_raw(raw_segment, document.delimiters)
 
             if segment.name == "ISA":

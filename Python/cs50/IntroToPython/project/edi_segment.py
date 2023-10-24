@@ -4,6 +4,15 @@ from edi_element import EdiElement
 class EdiSegment(EdiNode):
     def __init__(self, name):
         super().__init__(name)
+        self._raw_edi = ""
+
+    @property
+    def raw_edi(self):
+        return self._raw_edi
+    
+    @raw_edi.setter
+    def raw_edi(self, raw_edi):
+        self._raw_edi = raw_edi
 
     @classmethod
     def populate_from_raw(cls, raw_edi, delimiters):
@@ -16,6 +25,7 @@ class EdiSegment(EdiNode):
         segment_name = parts[0]
 
         segment = EdiSegment(segment_name)
+        segment.raw_edi = raw_edi
         for part in parts:
             if position > 0:
                 name = f"{segment_name}{position:02d}"
@@ -29,6 +39,3 @@ class EdiSegment(EdiNode):
             position += 1
 
         return segment
-
-    def __str__(self):
-        return self.name 

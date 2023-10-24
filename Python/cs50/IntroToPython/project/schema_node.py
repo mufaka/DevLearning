@@ -8,6 +8,7 @@ class SchemaNodeType(Enum):
     ELEMENT = 5
     COMPOSITE = 6
     ENUM = 7
+    GROUP = 8
 
 class SchemaNode:
     def __init__(self, name, schema):
@@ -31,6 +32,8 @@ class SchemaNode:
             return SchemaNodeType.ELEMENT 
         elif "enum" in self._schema.keys():
             return SchemaNodeType.ENUM
+        elif "x-edination-group-type" in self._schema.keys():
+            return SchemaNodeType.GROUP 
         else:
             return SchemaNodeType.ELEMENT 
 
@@ -46,6 +49,8 @@ class SchemaNode:
             return self._schema["x-edination-composite-id"]
         elif "x-edination-element-id" in self._schema.keys():
             return self._schema["x-edination-element-id"]
+        elif "x-edination-group-type" in self._schema.keys():
+            return f"Group - {self.name}"
         else:
             return None
 
@@ -87,7 +92,7 @@ class SchemaNode:
         loop and an array of allowable values for the first element
         in that segment
         """
-        if self.node_type == SchemaNodeType.LOOP and len(self._children) > 0:
+        if (self.node_type == SchemaNodeType.LOOP or self.node_type == SchemaNodeType.GROUP) and len(self._children) > 0:
             # assume first child is Segment?
             first_segment = self._children[0]
 
@@ -109,7 +114,8 @@ class SchemaNode:
         self.debug_node_recursive(self, 0)
 
     def debug_node_recursive(self, schema_node, level):
-        print("    " * level, f"{schema_node.name}")
+        print("    " * level, f"{schema_node.id} {schema_node.name}")
+        print("    " * (level + 1), f"{schema_node.get_loop_markers()}")
 
         for child in schema_node.children:
             self.debug_node_recursive(child, level + 1)

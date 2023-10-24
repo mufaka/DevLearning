@@ -87,6 +87,26 @@ class OpenEDISpec:
                         parent_node.add_child(ref_node)
                         
                         self._get_schema_tree_recursive(ref_schema, ref_node)
+                    else:
+                        ref_node = SchemaNode(k, v)
+                        ref_node.parent = parent_node 
+                        parent_node.add_child(ref_node)
+
+                        refs = None 
+
+                        if "allOf" in v.keys(): 
+                            refs = v["allOf"]
+                        elif "anyOf" in v.keys():
+                            refs = v["anyOf"]
+                        elif "oneOf" in v.keys():
+                            refs = v["oneOf"]
+                        
+                        if refs:
+                            for ref in refs:
+                                of_schema = DictUtil.get_value_by_reference_path(self._spec, ref["$ref"])
+                                of_node = SchemaNode(k, of_schema)
+                                of_node.parent = ref_node 
+                                ref_node.add_child(of_node)
                 else:
                     # assume this is an element?
                     ref_node = SchemaNode(k, v)
@@ -98,9 +118,9 @@ class OpenEDISpec:
                     if "allOf" in v.keys(): 
                         refs = v["allOf"]
                     elif "anyOf" in v.keys():
-                        refs = v["allOf"]
+                        refs = v["anyOf"]
                     elif "oneOf" in v.keys():
-                        refs = v["allOf"]
+                        refs = v["oneOf"]
                     
                     if refs:
                         for ref in refs:
