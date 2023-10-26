@@ -7,8 +7,8 @@ from edi_parser import EdiParser
 
 def main():
     parser = argparse.ArgumentParser(
-        prog='EDI Viewer',
-        description='Displays EDI in a structure defined by the implementation specification.')
+        prog='X12 EDI Viewer',
+        description='Displays EDI in a structure defined by the OpenEDI implementation specification.')
     
     parser.add_argument("filename")
     args = parser.parse_args()
