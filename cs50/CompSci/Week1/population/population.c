@@ -10,8 +10,9 @@ int main(void)
     /*
         Your program should first prompt the user for a starting population size.
             If the user enters a number less than 9 (the minimum allowed population size), 
-            the user should be re-prompted to enter a starting population size until they enter a number that is greater than or equal to 9. 
-            (If we start with fewer than 9 llamas, the population of llamas will quickly become stagnant!)    
+            the user should be re-prompted to enter a starting population size until they enter a number 
+            that is greater than or equal to 9. (If we start with fewer than 9 llamas, the population 
+            of llamas will quickly become stagnant!)    
     */
     // TODO: Prompt for start size
     int startSize = getPopulationSize("Start size: ", 9);
@@ -22,7 +23,6 @@ int main(void)
     // n / 3 added each year, n / 4 removed each year but also realize that each year you start with more than previous year
     // loop until startSize >= endSize
     int years = getYearsUntilPopulationSize(startSize, endSize);
-
 
     // TODO: Print number of years
     printf("Years: %i\n", years);
@@ -45,7 +45,8 @@ int getYearsUntilPopulationSize(int startSize, int endSize)
 {
     int years = 0;
 
-    if (startSize == endSize) return years;
+    if (startSize == endSize) 
+        return years;
     
     do
     {
