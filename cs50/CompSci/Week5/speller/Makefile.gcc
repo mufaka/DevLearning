@@ -1,0 +1,14 @@
+HEADERS = dictionary.h
+OBJECTS = speller.o dictionary.o
+
+default: speller
+
+%.o: %.c $(HEADERS)
+	gcc -c $< -o $@
+
+speller: $(OBJECTS)
+	gcc $(OBJECTS) -o $@ -lm
+
+clean:
+	-rm -f $(OBJECTS)
+	-rm -f speller
