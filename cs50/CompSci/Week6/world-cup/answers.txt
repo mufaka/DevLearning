@@ -1,0 +1,15 @@
+Times:
+
+10 simulations: 0m0.040s
+100 simulations: 0m0.044s
+1000 simulations: 0m0.045s
+10000 simulations: 0m0.095s
+100000 simulations: 0m0.615s
+1000000 simulations: 0m5.318s
+
+Questions:
+
+Which predictions, if any, proved incorrect as you increased the number of simulations?: Switzerland jumped up in percentage from 10 to 100 simulations but back down beyond that.
+
+Suppose you're charged a fee for each second of compute time your program uses.
+After how many simulations would you call the predictions "good enough"?: 10000. There wasn't much difference between 10000, 100000, and 1000000 but from 1000 to 10000 there was noticeable difference.
