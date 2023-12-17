@@ -1,0 +1,1 @@
+SELECT m.title FROM movies m WHERE m.id in (SELECT s1.movie_id FROM stars s1 JOIN people p1 ON p1.id = s1.person_id WHERE p1.name = 'Bradley Cooper' and s1.movie_id in (SELECT s2.movie_id FROM stars s2 JOIN people p2 on p2.id = s2.person_id WHERE p2.name = 'Jennifer Lawrence'));

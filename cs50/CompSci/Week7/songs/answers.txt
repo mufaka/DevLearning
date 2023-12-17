@@ -1,0 +1,7 @@
+I would characterize a listeners audio aura using the following SQL statement:
+
+SELECT AVG(energy), AVG(valence), AVG(danceability) FROM songs;
+
+Because there are 3 categories, I would show the different values using Red for energy, Green for valence, and Blue for danceability with each hue being calculated by normalizing the average values to 255 based on the max in each category.
+
+Assuming that "top songs" means the amount of time a listener listened to a song, the above could be a better representation of the listener if it took that into account when calculating the averages. I would give more weight to each variable based on the amount of listens a particular song had.

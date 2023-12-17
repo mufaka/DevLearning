@@ -1,0 +1,2 @@
+WITH films AS (SELECT id as movie_id FROM movies WHERE year = 2004)
+SELECT p.name FROM people p WHERE p.id IN (SELECT s.person_id FROM stars s JOIN films f ON f.movie_id = s.movie_id) ORDER BY p.birth ASC;

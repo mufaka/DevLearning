@@ -1,0 +1,9 @@
+CREATE INDEX idx_stars_movie ON stars (movie_id);
+CREATE INDEX idx_stars_person ON stars (person_id);
+CREATE INDEX idx_directors_movie ON directors (movie_id);
+CREATE INDEX idx_directors_person ON directors (person_id);
+CREATE INDEX idx_ratings_movie ON ratings (movie_id);
+CREATE INDEX idx_movies_title ON movies (title);
+CREATE INDEX idx_movies_year ON movies (year);
+CREATE INDEX idx_people_name ON people (name);
+CREATE INDEX idx_people_birth ON people (birth);
