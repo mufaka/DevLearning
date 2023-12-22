@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<!-- height 100% on document -->
+<html lang="en" class="h-100">
+    <head>
+        <meta name="theme-color" content="#7952b3">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <link href="styles.css" rel="stylesheet">
+        <title>Weather</title>
+        <script>
+            // implement __dom_init for this page
+            function __dom_init() {
+
+            }
+        </script>
+    </head>
+    <!-- define the body as responsive, having a 100% height -->
+    <body class="d-flex h-100 text-center text-white bg-dark bg-gradient">
+        <!-- the main layout is a single flex column with 100% width and height -->
+        <div class="d-flex w-100 h-100 p-3 mx-auto flex-column">   
+            <!-- header copied from bootstrap examples -->     
+            <header class="mb-5">
+                <div>
+                    <h3 class="float-md-start mb-0 site-name">CS50</h3>
+                    <nav class="nav nav-masthead justify-content-center float-md-end">
+                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="map.html">Map</a>
+                        <a class="nav-link active" aria-current="page" href="#">Weather</a>
+                        <a class="nav-link" href="calendar.html">Calendar</a>
+                    </nav>
+                </div>
+            </header>
+
+            <!-- Embed an OpenLayers map -->
+            <main class="px-3">
+                <div class="row">
+                    <div class="col-md-2 text-start">
+                        <!-- define a select list for the MLB teams-->
+                        <input type="text" class="form-control" id="zip-code" placeholder="Zip Code">
+                    </div>
+                    <div class="col-md-10 text-start">
+                        <button class="btn btn-secondary" id="btn-forecast" onclick="showForecast();">Get Forecast</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                        <!-- container for forecast. using flexgrid and will dynamically populate -->
+                        <div id="forecast-container" class="d-flex flex-wrap gap-3"></div>
+                    </div>
+                </div>
+            </main>            
+
+            <footer class="mt-auto text-white-50">
+                <p>CS50 Week 8 - Homepage Project</p>
+            </footer>            
+        </div>
+    </body>
+    <!-- including this at the bottom will ensure other javascript is loaded first-->
+    <script src="util.js"></script>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>    
+    <script>
+        /*
+            NOTE: This should all probably live in a separate .js file
+
+            This script supports getting a weather forecast for a zipcode. 
+
+            The National Weather Service (NWS) provides an API for this but requires a
+            longitude and latitude so we will have to provide a means to get those
+            values.
+
+            https://weather-gov.github.io/api/general-faqs
+                How do I get a forecast for a location from the API
+
+                You’ll need to know the latitude and longitude of the location in decimal degrees. 
+                (If you want to get really geospatially technical, your location should be a 
+                WGS 84 or EPSG 4326 coordinate.)
+
+                For our example here, we’ll use the Washington Monument in Washington, D.C. 
+                It’s located at 38.8894 latitude, -77.0352 longitude. Please note that, for efficiency 
+                purposes, the API doesn’t support more than four decimal places of precision in coordinates. 
+                If you send a more precise coordinate, you’ll receive an error giving you the closest proper 
+                coordinate. Four decimal places is about 30 feet (10 meters) over most of the United States, 
+                so that should still be close enough! 
+                
+                Once you know the latitude and longitude, it’s an easy 
+                three-step process from there. You can follow along in your browser with the links below:
+
+                1. Retrieve the metadata for your location from https://api.weather.gov/points/{lat},{lon}.
+                    a. For our example the URL will be https://api.weather.gov/points/38.8894,-77.0352
+                2. You’ll get back a JSON document. Inside the document, find the properties object, and inside 
+                   that, find the forecast property. You’ll find another URL there.
+                    a. For our example this gives us https://api.weather.gov/gridpoints/LWX/96,70/forecast
+                    b. You can also get the hour-by-hour forecast from the forecastHourly property. 
+                       For our example it’s https://api.weather.gov/gridpoints/LWX/96,70/forecast/hourly
+                3. Retrieve that URL. You’ll get a JSON document containing the forecast for that location.
+
+            NOTE: As stated above, precision on longitude and latitude can only be 4 decimal places
+
+            The result of the API call returns json with the following:
+            "properties":
+            {
+                "periods":[
+                {
+                    "number": 1,
+                    "name": "This Afternoon",
+                    "startTime": "2023-12-21T13:00:00-05:00",
+                    "endTime": "2023-12-21T18:00:00-05:00",
+                    "isDaytime": true,
+                    "temperature": 47,
+                    "temperatureUnit": "F",
+                    "temperatureTrend": null,
+                    "probabilityOfPrecipitation": {
+                        "unitCode": "wmoUnit:percent",
+                        "value": null
+                    },
+                    "dewpoint": {
+                        "unitCode": "wmoUnit:degC",
+                        "value": -1.1111111111111112
+                    },
+                    "relativeHumidity": {
+                        "unitCode": "wmoUnit:percent",
+                        "value": 57
+                    },
+                    "windSpeed": "5 mph",
+                    "windDirection": "N",
+                    "icon": "https://api.weather.gov/icons/land/day/bkn?size=medium",
+                    "shortForecast": "Partly Sunny",
+                    "detailedForecast": "Partly sunny, with a high near 47. North wind around 5 mph."
+                },
+                ...
+                ]
+            }
+
+
+            To get the longitude and latitude of a zipcode (presumably center point):
+
+            https://data.opendatasoft.com/explore/dataset/georef-united-states-of-america-zc-point%40public/api/
+
+            select geo_point_2d where zip_code = 92688
+
+            {
+                "total_count":1,
+                "results":[
+                    {
+                        "geo_point_2d":{
+                            "lon":-117.61231,
+                            "lat":33.62008
+                        }
+                    }
+                ]
+            }            
+                            
+            For 92688, the URL would be: https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-united-states-of-america-zc-point@public/records?select=geo_point_2d&where=zip_code%20%3D%20%2792688%27&limit=1
+
+            Note that this API seems to provide 5 digit precision. 
+            
+            Given the above the approach is to use both API calls as follows:
+
+                1. User enters a zipcode (note, possibly also search by usps_city and stusps_code which is the state abbreviation)
+                    a. onchange, the opendatasoft api is called.
+                        i. if no results, show a message indicating the desired location wasn't found
+                        ii. if found, call the NWS API to get forecast data
+            
+            The functions below turned out to be a pretty good deep dive into Promises and async programming in javascript.
+        */ 
+        function showForecast() {
+            let zipCodeElement = document.getElementById("zip-code");
+            let zipCode = zipCodeElement.value;
+
+            if (zipCode.length == 5) {
+                let url = `https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-united-states-of-america-zc-point@public/records?select=geo_point_2d&where=zip_code%20%3D%20%27${zipCode}%27&limit=1`;
+
+                // get the geocode point and pass to NWS calls
+                getGeoPointForZip(url).then((data) => {
+                    getForecastForGeopoint(data).then((forecast) => {
+                        populateForecastUI(forecast);
+                    });
+                });
+            }
+        }
+
+        function populateForecastUI(forecast) {
+            let forecastContainer = document.getElementById("forecast-container");
+            let domParser = new DOMParser();
+
+            // lets ensure that any prior forecast is cleared
+            forecastContainer.innerHTML = "";
+
+            for (i = 0; i < forecast.properties.periods.length; i++) {
+                let period = forecast.properties.periods[i];
+                let periodDiv = domParser.parseFromString(getForecastItemUI(period), "text/html").firstChild;
+                forecastContainer.appendChild(periodDiv);
+            }
+        }
+
+        function getForecastItemUI(forecast) {
+            // forecast-item is styled in styles.css
+            // NOTE: backticks used for Template Literals.
+            return `
+                <div class="forecast-item p-2">
+                    <div class="row forecast-header">
+                        <div class="col-md-8">${forecast.name}</div>
+                        <div class="col-md-4">${forecast.temperature}${forecast.temperatureUnit}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><img src="${forecast.icon}" alt="${forecast.name}"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">${forecast.shortForecast}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getGeoPointForZip(url, callback) {
+            return fetch(url).then((response) => {
+                // fetch returns a 'Promise'; return the data inside another Promise
+                // NOTE: this returns a 5 digit precision decimal but even though the 
+                //       NWS documentation says it will cause an err, it seems to work
+                //       just fine. 
+                return response.json().then((data) => {
+                    return data.results[0].geo_point_2d;
+                });
+            });
+        }
+
+        /*
+            Builds up the metadata url from the geopoint and returns the
+            result of calling getForecastFromMetaData; the actual forecast
+            data.
+        */
+        function getForecastForGeopoint(geopoint, callback) {
+            let url = `https://api.weather.gov/points/${geopoint.lat},${geopoint.lon}`;
+            return getForecastFromMetaData(url).then((data) => {
+                return data;
+            });
+        }
+
+        /*
+            This calls the metadata url and then subsequently calls
+            the forecast url that it provides. The result of the
+            call to the forecast url is the data returned by this
+            Promise
+        */
+        function getForecastFromMetaData(metaDataUrl) {
+            return fetch(metaDataUrl).then((response) => {
+                return response.json().then((data) => {
+                    return fetch(data.properties.forecast).then((response) => {
+                        return response.json().then((data) => {
+                            return data;
+                        });
+                    });
+                });
+            });
+        }
+
+    </script>
+</html>

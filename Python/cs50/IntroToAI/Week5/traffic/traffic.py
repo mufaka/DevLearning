@@ -1,3 +1,6 @@
+## ignore missing package warnings; running in WSL-2
+## but VS Code running in Windows. 
+
 import cv2
 import numpy as np
 import glob
@@ -12,7 +15,6 @@ IMG_WIDTH = 30
 IMG_HEIGHT = 30
 NUM_CATEGORIES = 43
 TEST_SIZE = 0.4
-
 
 def main():
 
@@ -75,6 +77,7 @@ def load_data(data_dir):
             files = glob.glob(f"{category_dir}{os.path.sep}*")
 
             for file in files:
+                print(f"Reading {file}")
                 img = cv2.imread(file)
                 resized_img = cv2.resize(img, (IMG_WIDTH, IMG_HEIGHT))
                 images.append(resized_img)
@@ -101,6 +104,7 @@ def get_model():
 
     return model
 
+# This is the base model I modified. It was from the lecture example.
 def get_mnist_model():
     model = tf.keras.models.Sequential([
 
@@ -125,6 +129,7 @@ def get_mnist_model():
 
     return model 
 
+# this is the model that is being run.
 def get_modified_model():
     model = tf.keras.models.Sequential([
 

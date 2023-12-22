@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<!-- height 100% on document -->
+<html lang="en" class="h-100">
+    <head>
+        <meta name="theme-color" content="#7952b3">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <link href="styles.css" rel="stylesheet">
+        <title>MLB Map</title>
+        <script>
+            // implement __dom_init for this page
+            function __dom_init() {
+                // initialize to my home town.
+                setMapCoordinates(-117.603104, 33.640854, 12)
+                populateMlbTeams();
+            }
+        </script>
+    </head>
+    <!-- define the body as responsive, having a 100% height -->
+    <body class="d-flex h-100 text-center text-white bg-dark bg-gradient">
+        <!-- the main layout is a single flex column with 100% width and height -->
+        <div class="d-flex w-100 h-100 p-3 mx-auto flex-column">   
+            <!-- header copied from bootstrap examples -->     
+            <header class="mb-5">
+                <div>
+                    <h3 class="float-md-start mb-0 site-name">CS50</h3>
+                    <nav class="nav nav-masthead justify-content-center float-md-end">
+                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="#">Map</a>
+                        <a class="nav-link" href="weather.html">Weather</a>
+                        <a class="nav-link" href="calendar.html">Calendar</a>
+                    </nav>
+                </div>
+            </header>
+            <main class="px-3">
+                <div class="row">
+                    <div class="col-md-3 text-start">
+                        <!-- define a select list for the MLB teams-->
+                        <label for="mlb-park" class="form-label">MLB Park</label>
+                        <!-- you can define some even handlers through attributes: when the chosen item changes, navigate to stadium. -->
+                        <!-- NOTE: The teams are dynamically loaded from the list at the bottom of the source code -->
+                        <select class="form-select" id="mlb-park" onchange="navigateToStadium();">
+                            <option value="">Choose...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-9">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- this is the placeholder for the map. It is loaded using javascript below -->
+                        <div id="mapdiv" style="height: 600px;"></div>
+                    </div>
+                </div>
+            </main>            
+            <footer class="mt-auto text-white-50">
+                <p>CS50 Week 8 - Homepage Project</p>
+            </footer>            
+        </div>
+    </body>
+    <!-- including this at the bottom will ensure other javascript is loaded first-->
+    <script src="util.js"></script>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>    
+    <script>
+        // hold a reference to map so we don't initialize it every time we navigate
+        var map;
+
+        function setMapCoordinates(longitude, latitude, zoomLevel) {
+            if (!map) {
+                // initialize the OpenLayers map the one and only time
+                map = new OpenLayers.Map("mapdiv");
+                // use OpenStreetMaps layer
+                map.addLayer(new OpenLayers.Layer.OSM());
+
+                // not needed for this functionality, but cool that you can 
+                // have multiple layers that you can switch to.
+                var layer_switcher= new OpenLayers.Control.LayerSwitcher({});
+                map.addControl(layer_switcher);
+            }
+            
+            var lonLat = new OpenLayers.LonLat(longitude, latitude).transform(
+                new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                map.getProjectionObject() // to Spherical Mercator Projection
+            );
+
+            // navigate to the location
+            map.setCenter (lonLat, zoomLevel);  
+        }
+
+        function navigateToStadium() {
+            // get the select element
+            let selectList = document.getElementById("mlb-park");
+            // get the chosen team index
+            let selectedIndex = selectList.selectedIndex;
+
+            // NOTE: selectedIndex needs to offset by -1 because we populate list with Choose...
+            if (selectedIndex > 0) {
+                let mlbTeam = mlbTeams[selectedIndex - 1];
+                // see the mlbTeams array below for definition of team
+                setMapCoordinates(mlbTeam.lng, mlbTeam.lat, 14);
+            }
+        }
+
+        function populateMlbTeams() {
+            // loop through the mlbTeams and add to drop down
+            let selectList = document.getElementById("mlb-park");
+
+            for (i = 0; i < mlbTeams.length; i++) {
+                let mlbTeam = mlbTeams[i];
+                // dynamically create an option tag
+                let option = document.createElement("option");
+                // set the text. value doesn't matter because we are using index.
+                option.text = mlbTeam.team;
+                // add the option to the select list
+                selectList.add(option);    
+            }
+        }
+
+        // sourced from https://gist.github.com/the55/2155142
+        var mlbTeams = [
+            {"team":"Anaheim Angels","address":"2000 Gene Autry Way, Anaheim, CA. 92806","lat":33.799572,"lng":-117.889031},
+            {"team":"Arizona Diamondbacks","address":"P.O. Box 2095, Phoenix, AZ. 85001","lat":33.452922,"lng":-112.038669},
+            {"team":"Atlanta Braves","address":"P.O. Box 4064, Atlanta, GA. 30302","lat":33.74691,"lng":-84.391239},
+            {"team":"Baltimore Orioles","address":"333 W. Camden Street, Baltimore, MD. 21201","lat":39.285243,"lng":-76.620103},
+            {"team":"Boston Red Sox","address":"4 Yawkey Way, Boston, MA 02215","lat":42.346613,"lng":-71.098817},
+            {"team":"Chicago Cubs","address":"1060 Addison Street, Chicago, IL 60616","lat":41.947201,"lng":-87.656413},
+            {"team":"Chicago White Sox","address":"333 W. 35th Street, Chicago, IL 60616","lat":41.830883,"lng":-87.635083},
+            {"team":"Cincinnati Reds","address":"100 Cinergy Field, Cincinnati, OH 45202","lat":39.107183,"lng":-84.507713},
+            {"team":"Cleveland Indians","address":"2401 Ontario Street, Cleveland, OH 44115","lat":41.495149,"lng":-81.68709},
+            {"team":"Colorado Rockies","address":"Coors Field, 2001 Blake Street, Denver, CO 80205-2000","lat":39.75698,"lng":-104.965329},
+            {"team":"Detroit Tigers","address":"Comerica Park, 2100 Woodward Ave., Detroit, MI 48201","lat":42.346354,"lng":-83.059619},
+            {"team":"Florida Marlins","address":"2269 NW 199th Street, Miami, FL 33056","lat":25.954428,"lng":-80.238164},
+            {"team":"Houston Astros","address":"P.O. Box 288, Houston, TX 77001-0288","lat":29.76045,"lng":-95.369784},
+            {"team":"Kansas City Royals","address":"P.O. Boz 419969, Kansas City, MO 64141","lat":39.10222,"lng":-94.583559},
+            {"team":"Los Angeles Dodgers","address":"1000 Elysian Park Ave., Los Angeles, CA 90012","lat":34.072437,"lng":-118.246879},
+            {"team":"Milwaukee Brewers","address":"P.O. Box 3099, Milwaukee, WI 53201-3099","lat":43.04205,"lng":-87.905599},
+            {"team":"Minnesota Twins","address":"501 Chicago Ave. S., Minneapolis, MN 55415","lat":44.974346,"lng":-93.259616},
+            {"team":"New York Mets","address":"Roosevelt Ave & 126th Street, New York, NY 11368","lat":40.75535,"lng":-73.843219},
+            {"team":"New York Yankees","address":"Yankee Stadium, E. 161 Street & River Ave., New York, NY 10451","lat":40.819782,"lng":-73.929939},
+            {"team":"Oakland Athletics","address":"Oakland Coliseum, 700 Coliseum Way, Oakland, Ca 94621-1918","lat":37.74923,"lng":-122.196487},
+            {"team":"Philadelphia Phillies","address":"P.O. Box 7575, Philadelphia, PA 19101","lat":39.952313,"lng":-75.162392},
+            {"team":"Pittsburgh Pirates","address":"600 Stadium Circle, Pittsburgh, PA 15212","lat":40.461503,"lng":-80.008924},
+            {"team":"St. Louis Cardinals","address":"250 Stadium Plaza, St. Louis, MO 63102","lat":38.629683,"lng":-90.188247},
+            {"team":"San Diego Padres","address":"P.O. Box 2000, San Diego, CA 92112-2000","lat":32.752148,"lng":-117.143635},
+            {"team":"San Francisco Giants","address":"Pacific Bell Park, 24 Willie Mays Plaza, San Francisco, CA 94107","lat":37.77987,"lng":-122.389754},
+            {"team":"Seattle Mariners","address":"P.O. Box 41000, 411 First Ave. S., Seattle, WA 98104","lat":47.60174,"lng":-122.330829},
+            {"team":"Tampa Bay Devil Rays","address":"1 Tropicana Drive, St. Petersburg, FL 33705","lat":27.768487,"lng":-82.648191},
+            {"team":"Texas Rangers","address":"1000 Ballpark Way, Arlington, TX 76011","lat":32.750156,"lng":-97.081117},
+            {"team":"Toronto Blue Jays","address":"1 Blue Jay Way, Suite 3200, Toronto, ONT M5V 1J1","lat":43.641653,"lng":-79.3917},
+            {"team":"Washington Nationals","address":"1500 South Capitol Street SE, Washington, DC","lat":38.87,"lng":-77.01}
+        ];
+    </script>
+</html>

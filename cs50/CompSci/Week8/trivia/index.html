@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            let multipleChoiceAnswers = ['Des Moines', 'Topeka', 'Lansing', 'Atlanta'];
+            let multipleChoiceCorrectIdx = 1;
+            let freeCorrectAnswers = ['PECK', 'A PECK', 'PETER PIPER PICKED A PECK', 'A PECK OF PICKLED PEPPERS', 'PETER PIPER PICKED A PECK OF PICKLED PEPPERS'];
+
+            function setLabel(elementId, text) {
+                let element = document.querySelector('#' + elementId);
+                element.textContent = text;
+            }
+
+            function setButtonColor(element, color) {
+                // reset all buttons
+                for (i = 0; i < multipleChoiceAnswers.length; i++) {
+                    let button = document.querySelector('#mult-' + i);
+                    button.style.background = '#d9edff';
+                }
+                element.style.background = color;
+            }
+
+            function checkFreeTextAnswer(answer, correctAnswers) {
+                // need to convert answer to trimmed uppercase
+                let normalizedAnswer = answer.trim().toUpperCase();
+                return correctAnswers.includes(normalizedAnswer);
+            }
+
+            // wait for DOM to be loaded before adding event handlers
+            document.addEventListener('DOMContentLoaded', function() {
+                // dynamically fill in the answers. this could be randomized
+                for (i = 0; i < multipleChoiceAnswers.length; i++)
+                {
+                    let multButton = document.querySelector('#mult-' + i);
+                    multButton.textContent = multipleChoiceAnswers[i];
+
+                    multButton.addEventListener('click', function(event) {
+                       // inside the event handler, you can reference
+                       // the source using 'this'
+                       let correctButtonId = 'mult-' + multipleChoiceCorrectIdx;
+
+                       if (this.id == correctButtonId) {
+                            setButtonColor(this, 'green');
+                            setLabel('mult-result', 'Correct!');
+                       } else {
+                            setButtonColor(this, 'red');
+                            setLabel('mult-result', 'Incorrect');
+                       }
+                    });
+                }
+
+                let freeButton = document.querySelector('#free-0-check');
+                freeButton.addEventListener('click', function(event) {
+                    let answerInput = document.querySelector('#free-0-answer');
+                    let answerText = answerInput.value;
+
+                    if (checkFreeTextAnswer(answerText, freeCorrectAnswers)) {
+                        answerInput.style.background = 'green';
+                        setLabel('free-result', 'Correct!');
+                    } else {
+                        answerInput.style.background = 'red';
+                        setLabel('free-result', 'Incorrect');
+                    }
+                });
+            });
+
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <h3>What is the capital of Kansas?</h3>
+                <p id="mult-result"></p>
+                <!-- dynamically build buttons? probably won't pass the lab check -->
+                <button type="button" id="mult-0"></button>
+                <button type="button" id="mult-1"></button>
+                <button type="button" id="mult-2"></button>
+                <button type="button" id="mult-3"></button>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <h3>If Peter Piper picked a peck of pickled peppers, how many pickled peppers did Peter Piper pick?</h3>
+                <p id="free-result"></p>
+                <input type="text" id="free-0-answer"/> <button type="button" id="free-0-check">Check Answer</button>
+            </div>
+        </div>
+    </body>
+</html>
