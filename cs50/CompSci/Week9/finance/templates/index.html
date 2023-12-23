@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <table class="table table-dark">
+      <thead class="thead-primary">
+        <tr>
+          <th colspan="5"><h4>Portfolio</h4></th>
+        </tr>
+        <tr>
+          <th>Symbol</th>
+          <th>Shares</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stock in portfolio %}
+          <tr>
+            <td>{{stock.symbol}}</td>
+            <td>{{stock.total_quantity}}</td>
+            <td>{{stock.price | usd}}</td>
+            <td>{{(stock.price * stock.total_quantity) | usd}}</td>
+          </tr>
+        {% endfor %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td><span class="total">Cash</span></td>
+          <td>{{cash | usd}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td><span class="total">Total</span></td>
+            <td>{{total_assets | usd}}</td>
+        </tr>
+      </tbody>
+    </table>
+{% endblock %}
