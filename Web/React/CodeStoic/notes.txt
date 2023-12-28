@@ -1,0 +1,33 @@
+Following Code Stoic course at https://www.youtube.com/playlist?list=PLSsAz5wf2lkKm0BG9wUWWSgYWBzDa-dFs
+
+Create a new project using vite:
+    npm create vite
+
+    cd <project dir>
+    npm install 
+    npm run dev
+
+    Sheesh ... "added 218 packages, and audited 219 packages in 20s" 
+
+    NOTE: Code Stoic course uses JavaScript but I am using TypeScript (because type safety, less error prone)
+
+Single Page Application
+
+    index.html is the single Page
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    main.tsx
+    -------------------------------------------------------------
+    import React from 'react'
+    import ReactDOM from 'react-dom/client'
+    import App from './App.tsx' <-- defines the App component which is the root component
+    import './index.css'
+
+    // Renders the App component in the HTML element with Id 'root' (see div above in index.html)
+    ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode> // https://react.dev/reference/react/StrictMode (development checks for render, effects, deprecated api usage)
+        <App />
+    </React.StrictMode>,
+    )
