@@ -7,9 +7,13 @@ Create a new project using vite:
     npm install 
     npm run dev
 
+    Choose react / TypeScript
+    
     Sheesh ... "added 218 packages, and audited 219 packages in 20s" 
 
     NOTE: Code Stoic course uses JavaScript but I am using TypeScript (because type safety, less error prone)
+    NOTE: When running in WSL from terminal in VS Code, I had to restart VS Code to remove "errors" for TypeScript.
+          Specifically: "React refers to a UMD global, but the current file is a module" when creating a component
 
 Single Page Application
 
