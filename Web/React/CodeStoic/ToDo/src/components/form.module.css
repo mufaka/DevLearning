@@ -1,0 +1,37 @@
+/* NOTE: the class names have to be named in a property friendly manner todo-form won't work. */
+.todoform {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modernInput {
+    display: block;
+    width: 100%;
+    border: none;
+    color: #000;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.modernInput:focus {
+    outline: none;
+}
+
+.modernButton {
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    background-color: #352d2d;
+    padding: 12px 20px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.inputContainer {
+    display: flex;
+}
