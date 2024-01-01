@@ -1,16 +1,20 @@
 // import { useState } from "react";
 import "./App.css";
 import { Layout, Flex } from "antd";
+import HeaderBar from "./components/HeaderBar";
+import MenuBar from "./components/MenuBar";
+import SubMenuBar from "./components/SubMenuBar";
 
 const { Header, Footer, Content } = Layout;
 
-// TODO: These styles need to go in App.css or use tailwind
+// TODO: These styles need to go in App.css?
 const headerStyle: React.CSSProperties = {
     textAlign: "center",
     color: "#fff",
-    height: 64,
-    paddingInline: 48,
-    lineHeight: "64px",
+    height: 104,
+    padding: 0,
+    //paddingInline: 48,
+    //lineHeight: "64px",
     backgroundColor: "#4096ff",
 };
 
@@ -40,7 +44,11 @@ function App() {
     return (
         <Flex gap="middle" wrap="wrap">
             <Layout style={layoutStyle}>
-                <Header style={headerStyle}>Header</Header>
+                <Header style={headerStyle}>
+                    <HeaderBar />
+                    <MenuBar />
+                    <SubMenuBar />
+                </Header>
                 <Content style={contentStyle}>Content</Content>
                 <Footer style={footerStyle}>Footer</Footer>
             </Layout>
