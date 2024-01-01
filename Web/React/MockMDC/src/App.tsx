@@ -1,9 +1,9 @@
 // import { useState } from "react";
 import "./App.css";
 import { Layout, Flex } from "antd";
-import HeaderBar from "./components/HeaderBar";
-import MenuBar from "./components/MenuBar";
-import SubMenuBar from "./components/SubMenuBar";
+import HeaderBar from "./components/header/HeaderBar";
+import MenuBar from "./components/header/MenuBar";
+import SubMenuBar from "./components/header/SubMenuBar";
 
 const { Header, Footer, Content } = Layout;
 
@@ -14,7 +14,7 @@ const headerStyle: React.CSSProperties = {
     height: 104,
     padding: 0,
     //paddingInline: 48,
-    //lineHeight: "64px",
+    lineHeight: "unset",
     backgroundColor: "#4096ff",
 };
 
