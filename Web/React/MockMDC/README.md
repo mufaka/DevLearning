@@ -37,3 +37,7 @@ Setting up tailwindcss with react is covered in the [docunentation](https://tail
 ## Notes
 
 Notes along the way will be maintained in separate markdown files.
+
+[Ant Design Component Documentation](https://ant.design/components/overview/)
+
+[Tailwind Cheat Sheet](https://tailwindcomponents.com/cheatsheet/)
