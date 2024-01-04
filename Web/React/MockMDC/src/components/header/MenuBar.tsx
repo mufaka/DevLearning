@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
     HomeOutlined,
@@ -31,23 +31,43 @@ const badgeStyle = "block";
 
 export default function MenuBar() {
     const navigate = useNavigate();
+    const location = useLocation();
+
     return (
         <div className="h-14 w-screen bg-gray-700">
             <div
-                className={menuItemSelectedClass}
+                className={
+                    location.pathname == "/"
+                        ? menuItemSelectedClass
+                        : menuItemClass
+                }
                 onClick={() => navigate("/")}
             >
                 <HomeOutlined className={iconClassName} style={iconStyle} />
                 <span className={badgeStyle}>Home</span>
             </div>
-            <div className={menuItemClass} onClick={() => navigate("/perform")}>
+            <div
+                className={
+                    location.pathname == "/perform"
+                        ? menuItemSelectedClass
+                        : menuItemClass
+                }
+                onClick={() => navigate("/perform")}
+            >
                 <DashboardOutlined
                     className={iconClassName}
                     style={iconStyle}
                 />
                 <span className={badgeStyle}>Perform</span>
             </div>
-            <div className={menuItemClass} onClick={() => navigate("/appts")}>
+            <div
+                className={
+                    location.pathname == "/appts"
+                        ? menuItemSelectedClass
+                        : menuItemClass
+                }
+                onClick={() => navigate("/appts")}
+            >
                 <CalendarOutlined className={iconClassName} style={iconStyle} />
                 <span className={badgeStyle}>Appts</span>
             </div>

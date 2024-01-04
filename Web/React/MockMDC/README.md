@@ -20,7 +20,9 @@ The following screenshot is the landing page after login.
 
 ![Alt text](mdc.png)
 
-The goal is to mimic not only this layout but also the linked to views as well while giving it a more modern look and feel.
+The goal is to mimic not only this layout but also the linked to views as well while giving it a more modern look and feel. Current progress pic below. Each empty card will be implemented as components.
+
+![Alt text](progress.png)
 
 ## API
 

@@ -2,7 +2,7 @@ import { Layout, Flex } from "antd";
 import HeaderBar from "../components/header/HeaderBar";
 import MenuBar from "../components/header/MenuBar";
 import SubMenuBar from "../components/header/SubMenuBar";
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 
 const { Header, Footer, Content } = Layout;
 
@@ -14,14 +14,6 @@ const headerStyle: React.CSSProperties = {
     //paddingInline: 48,
     lineHeight: "unset",
     backgroundColor: "#4096ff",
-};
-
-const contentStyle: React.CSSProperties = {
-    textAlign: "center",
-    minHeight: 120,
-    lineHeight: "120px",
-    color: "#fff",
-    backgroundColor: "#0958d9",
 };
 
 const footerStyle: React.CSSProperties = {
@@ -36,20 +28,27 @@ const layoutStyle = {
     width: "100vw",
 };
 
+const contentStyle = {
+    overflow: "hidden",
+    height: "100%",
+    width: "100%",
+    padding: 10,
+};
+
 export default function PageLayout() {
     return (
-        <Flex gap="middle" wrap="wrap">
-            <Layout style={layoutStyle}>
-                <Header style={headerStyle}>
-                    <HeaderBar />
-                    <MenuBar />
-                    <SubMenuBar />
-                </Header>
+        <Layout style={layoutStyle}>
+            <Header style={headerStyle}>
+                <HeaderBar />
+                <MenuBar />
+                <SubMenuBar />
+            </Header>
+            <Layout>
                 <Content style={contentStyle}>
                     <Outlet />
                 </Content>
-                <Footer style={footerStyle}>Footer</Footer>
             </Layout>
-        </Flex>
+            <Footer style={footerStyle}>Footer</Footer>
+        </Layout>
     );
 }
