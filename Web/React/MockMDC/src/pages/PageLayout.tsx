@@ -1,8 +1,8 @@
-import { Layout, Flex } from "antd";
+import { Layout } from "antd";
 import HeaderBar from "../components/header/HeaderBar";
 import MenuBar from "../components/header/MenuBar";
 import SubMenuBar from "../components/header/SubMenuBar";
-import { Outlet, redirect } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 const { Header, Footer, Content } = Layout;
 
